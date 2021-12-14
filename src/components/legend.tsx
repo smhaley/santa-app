@@ -23,7 +23,7 @@ const Legend = () => {
     <div className={"leaflet-bottom leaflet-right"}>
       <div className="leaflet-control leaflet-bar">
         <LegendContainer>
-          Santa's <b>predicted</b> final path through your community:
+          Santa's <b>predicted</b> final path to your region:
           <Path />
         </LegendContainer>
       </div>

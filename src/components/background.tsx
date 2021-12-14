@@ -83,9 +83,9 @@ const SleighContainer = styled.div`
     bottom: 27px;
     opacity: 0.4;
     position: absolute;
-    left: 0px;
-    width: 140px;
-    height: 26px;
+    left: 12px;
+    width: 120px;
+    height: 20px;
     z-index: -3;
     opacity: 0.6;
     background: radial-gradient(#7e7c7c, #f3ebeb);
@@ -113,7 +113,7 @@ const DeerContainer = styled.div`
     position: absolute;
     left: 20%;
     width: 90px;
-    height: 20px;
+    height: 15px;
     z-index: -7;
     opacity: 0.6;
     background: radial-gradient(#7e7c7c, #f3ebeb);

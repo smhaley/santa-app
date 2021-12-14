@@ -35,12 +35,12 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({ community }) => {
         {communityName ? (
           <>
             <h3>
-              Currently Tracking Santa to Your Community: <b>{communityName}</b>
+              Currently Tracking Santa to a Community in your Region: <b>{communityName}</b>
             </h3>
 
             <p>
-              Your location is used to predict Santa's final path to your
-              community!
+              Your region is used to predict Santa's final path to your
+              region!
             </p>
           </>
         ) : (

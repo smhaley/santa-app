@@ -71,7 +71,7 @@ const Title = styled.div<CountdownProps>`
   text-transform: uppercase;
   h1 {
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 600;
   }
   @media screen and (min-width: 360px) {
     font-size: 1.2em;
@@ -86,7 +86,7 @@ const Title = styled.div<CountdownProps>`
   }
   @media screen and (min-width: 560px) {
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.65rem;
     }
   }
 `;
@@ -167,7 +167,7 @@ const CountDown: React.FC<CountDownProps> = ({
     <Container
       maxWidth="md"
       sx={{
-        mt: xmasState ? 4 : 20,
+        mt: xmasState ? 2 : 20,
         display: message !== undefined ? "block" : "none",
       }}
     >

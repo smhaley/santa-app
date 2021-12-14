@@ -1,11 +1,4 @@
 import React from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -23,6 +16,13 @@ import {
   getCurrentLocation,
   CurrentLocation,
 } from "../utils/tracker.utils";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
 
 const SpinnerBox = styled(Box)`
   display: flex;
@@ -95,8 +95,6 @@ const Tracker: React.FC<Props> = ({
     const positionUpdate = () => {
       const time = new Date();
 
-      //todo: swap to minutes
-      const second = time.getUTCSeconds();
       const minute = time.getUTCMinutes();
 
       if (minute === 0) {
@@ -108,9 +106,6 @@ const Tracker: React.FC<Props> = ({
             setCurrentLocation({ location, index });
             setMinutePoints(points);
           }
-          // else if (currentLocation.index + 1 === worldRoute.length - 1) {
-          //   setXmas(false);
-          // }
         }
       } else {
         if (minutePoints) {
@@ -165,13 +160,12 @@ const Tracker: React.FC<Props> = ({
                 position={[location?.latitude, location?.longitude]}
                 icon={iconHouse}
               >
-                <Popup>Your current location</Popup>
+                <Popup>Your current region</Popup>
               </Marker>
               {location && location.latitude <= 180 && <Legend />}
             </>
           )}
         </MapContainer>
-        <div style={{ height: 20 }} />
       </Container>
     );
   } else if (location && (!minute || !xmasState)) {

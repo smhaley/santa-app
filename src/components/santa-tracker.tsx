@@ -1,5 +1,4 @@
 import React from "react";
-// import "./App.css";
 import Tracker from "./tracker";
 import CountDown from "./count-down";
 import { getLocation } from "../utils/app.utils";

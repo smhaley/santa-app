@@ -6,13 +6,18 @@ import SantaTracker from "./components/santa-tracker";
 import FAQ from "./components/faq";
 import styled from "@emotion/styled";
 
+const AppContainer = styled.div`
+  margin-bottom: 20px;
+`;
+
 const DisplayContainer = styled.div<{ show: boolean }>`
   display: ${(props) => (props.show ? "block" : "none")};
 `;
+
 const App = () => {
   const [location, setLocation] = React.useState("tracker");
   return (
-    <>
+    <AppContainer>
       <Navigation setLocation={setLocation} />
       <DisplayContainer show={location === "tracker"}>
         <SantaTracker />
@@ -21,7 +26,7 @@ const App = () => {
         <FAQ />
       </DisplayContainer>
       <Background />
-    </>
+    </AppContainer>
   );
 };
 

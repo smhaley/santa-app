@@ -13,6 +13,7 @@ import { ReactComponent as Santa } from "../assets/santa.svg";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import styled from "@emotion/styled";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 type Page = { name: string; key: string };
 
@@ -25,8 +26,9 @@ const StyleAppBar = styled(AppBar)`
   border-radius: 4px;
   background-color: ${({ theme }) => theme.palette.primary.dark};
 
-  svg {
+  .santa {
     width: 50px;
+    height: 50px;
   }
 `;
 
@@ -39,13 +41,14 @@ const pages: Page[] = [
   { name: "Tracker Home", key: "tracker" },
   { name: "FAQ", key: "faq" },
 ];
-const logo = <Santa />;
+const logo = <Santa className="santa" />;
 
 interface NavigationProps {
   setLocation: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Navigation: React.FC<NavigationProps> = ({ setLocation }) => {
+  const smMatch = useMediaQuery("(min-width:600px)");
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -57,9 +60,7 @@ const Navigation: React.FC<NavigationProps> = ({ setLocation }) => {
 
   const handleCloseNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     const { value } = event.currentTarget.dataset;
-    const index = pages.findIndex((page: Page) => page.key === value);
-    currentNav !== index && setCurrentNav(index);
-    setLocation(pages[index].key);
+    value && setLocation(value);
     setAnchorElNav(null);
   };
 
@@ -124,21 +125,23 @@ const Navigation: React.FC<NavigationProps> = ({ setLocation }) => {
           >
             {logo}
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
-            <TabContainer>
-              <Tabs
-                value={currentNav}
-                onChange={handleTabChange}
-                indicatorColor="secondary"
-                textColor="inherit"
-                aria-label={`${currentNav} tab`}
-              >
-                {pages.map((page: Page) => (
-                  <WeightedTab key={page.key + "weight"} label={page.name} />
-                ))}
-              </Tabs>
-            </TabContainer>
-          </Box>
+          {smMatch && (
+            <Box sx={{ flexGrow: 1, display: "flex" }}>
+              <TabContainer>
+                <Tabs
+                  value={currentNav}
+                  onChange={handleTabChange}
+                  indicatorColor="secondary"
+                  textColor="inherit"
+                  aria-label={`${currentNav} tab`}
+                >
+                  {pages.map((page: Page) => (
+                    <WeightedTab key={page.key + "weight"} label={page.name} />
+                  ))}
+                </Tabs>
+              </TabContainer>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </StyleAppBar>
