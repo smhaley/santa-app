@@ -3,8 +3,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { getTimeDelta, isXmas } from "../utils/count-down.utils";
-import { timeouts } from "../constants/timeouts";
-
+import { Timeouts } from "../constants/timeouts";
 
 export type Time = {
   [key: string]: number;
@@ -51,7 +50,7 @@ const CounterLi = styled.li<CountdownProps>`
   }
   ${(props) =>
     !props.xmas &&
-  `
+    `
       @media screen and (min-width: 470px) {
         font-size: 1.25em;
         span {
@@ -124,7 +123,6 @@ const CountDown: React.FC<CountDownProps> = ({
       const timeToXmas = getTimeDelta(12);
       const timeToXmasEnd = getTimeDelta(-11 - 3);
       const xmasIndicator = isXmas(timeToXmas, timeToXmasEnd);
-
       const preXmas =
         Object.values(timeToXmas).reduce(
           (accum: number, curr: number) => accum + curr
@@ -160,16 +158,16 @@ const CountDown: React.FC<CountDownProps> = ({
         }
         setXmasState(false);
       }
-    }, timeouts.MINUTE);
+    }, Timeouts.SECOND);
 
     return () => clearInterval(interval);
-  }, [currentTime, locationOffset, setXmasState]);
+  }, [currentTime, locationOffset, setXmasState, message]);
 
   return (
     <Container
       maxWidth="md"
       sx={{
-        marginTop: xmasState ? "20px" : "70px",
+        mt: xmasState ? 4 : 20,
         display: message !== undefined ? "block" : "none",
       }}
     >

@@ -24,11 +24,6 @@ import {
   CurrentLocation,
 } from "../utils/tracker.utils";
 
-//todo rm
-// const testLine = worldRoute.map((val) => [val.lat, val.lon]);
-
-const MINUTE_MS = 1000;
-
 const SpinnerBox = styled(Box)`
   display: flex;
   justify-content: center;
@@ -74,7 +69,6 @@ const Tracker: React.FC<Props> = ({
           item.lat,
           item.lon,
         ]);
-        console.log(predictedLine);
         setPredictedPath(predictedLine);
       } else {
         worldRoute = worldLocations;
@@ -87,6 +81,9 @@ const Tracker: React.FC<Props> = ({
             currentLocation.location,
             worldRoute[currentLocation.index + 1]
           );
+          const minDate = new Date();
+          const minPoint = points[minDate.getUTCMinutes()];
+          setMinute([minPoint.lat, minPoint.lon]);
           setMinutePoints(points);
         }
       }
@@ -100,8 +97,9 @@ const Tracker: React.FC<Props> = ({
 
       //todo: swap to minutes
       const second = time.getUTCSeconds();
+      const minute = time.getUTCMinutes();
 
-      if (second === 0) {
+      if (minute === 0) {
         if (currentLocation) {
           if (currentLocation.index + 1 < worldRoute.length - 1) {
             const index = currentLocation.index + 1;
@@ -116,14 +114,15 @@ const Tracker: React.FC<Props> = ({
         }
       } else {
         if (minutePoints) {
-          const point = minutePoints[second];
+          console.log(minute, minutePoints[minute]);
+          const point = minutePoints[minute];
           setMinute([point.lat, point.lon]);
         }
       }
     };
     const interval = setInterval(() => {
       positionUpdate();
-    }, MINUTE_MS);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [minutePoints, currentLocation, worldRoute]);

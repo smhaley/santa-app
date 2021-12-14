@@ -13,12 +13,12 @@ export const isXmas = (timeToXmas: Time, timeToXmasEnd: Time) => {
   const initXmas =
     Object.values(timeToXmas).reduce(
       (accum: number, curr: number) => accum + curr
-    ) <= 0;
+    ) === 0;
 
   const xmasEnd =
     Object.values(timeToXmasEnd).reduce(
       (accum: number, curr: number) => accum + curr
-    ) >= 0;
+    ) > 0;
 
   return initXmas && xmasEnd;
 };

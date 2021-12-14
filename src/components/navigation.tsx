@@ -14,6 +14,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import styled from "@emotion/styled";
 
+type Page = { name: string; key: string };
+
 const WeightedTab = styled(Tab)`
   font-weight: 600;
   letter-spacing: 0.05rem;
@@ -22,17 +24,28 @@ const WeightedTab = styled(Tab)`
 const StyleAppBar = styled(AppBar)`
   border-radius: 4px;
   background-color: ${({ theme }) => theme.palette.primary.dark};
+
+  svg {
+    width: 50px;
+  }
 `;
 
 const TabContainer = styled.div`
   margin-left: auto;
   display: flex;
 `;
-const pages = ["Tracker Home", "FAQ"];
 
-const logo = <Santa style={{ width: 50 }} />;
+const pages: Page[] = [
+  { name: "Tracker Home", key: "tracker" },
+  { name: "FAQ", key: "faq" },
+];
+const logo = <Santa />;
 
-const ResponsiveAppBar = () => {
+interface NavigationProps {
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ setLocation }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -44,13 +57,15 @@ const ResponsiveAppBar = () => {
 
   const handleCloseNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     const { value } = event.currentTarget.dataset;
-    const index = pages.findIndex((page) => page === value);
+    const index = pages.findIndex((page: Page) => page.key === value);
     currentNav !== index && setCurrentNav(index);
+    setLocation(pages[index].key);
     setAnchorElNav(null);
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     newValue !== currentNav && setCurrentNav(newValue);
+    setLocation(pages[newValue].key);
   };
 
   return (
@@ -90,13 +105,13 @@ const ResponsiveAppBar = () => {
                 display: { xs: "block", sm: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page: Page) => (
                 <MenuItem
-                  key={page}
-                  data-value={page}
+                  key={page.name}
+                  data-value={page.key}
                   onClick={handleCloseNavMenu}
                 >
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,11 +131,10 @@ const ResponsiveAppBar = () => {
                 onChange={handleTabChange}
                 indicatorColor="secondary"
                 textColor="inherit"
-                // variant="fullWidth"
-                aria-label="full width tabs example"
+                aria-label={`${currentNav} tab`}
               >
-                {pages.map((page) => (
-                  <WeightedTab key={page} label={page} />
+                {pages.map((page: Page) => (
+                  <WeightedTab key={page.key + "weight"} label={page.name} />
                 ))}
               </Tabs>
             </TabContainer>
@@ -130,4 +144,4 @@ const ResponsiveAppBar = () => {
     </StyleAppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Navigation;

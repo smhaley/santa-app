@@ -81,7 +81,7 @@ export const getCurrentLocation = (
     const localHours = date.getUTCHours();
     const localDay = date.getUTCDate();
     const localMonth = date.getUTCMonth();
-    console.log(localDay, localHours);
+
     if (localDay === Christmas.day && localMonth === Christmas.month) {
       if (localHours >= Christmas.timeBegin && localHours < Christmas.timeEnd) {
         currentLocation = { location, index };
