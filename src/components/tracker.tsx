@@ -2,7 +2,11 @@ import React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { worldLocations, WorldLocation } from "../constants/worldLocations";
+import {
+  worldLocations,
+  northPolePrepend,
+  WorldLocation,
+} from "../constants/worldLocations";
 import { LatLngExpression } from "leaflet";
 import { iconSanta, iconHouse } from "../leaflet/icon";
 import styled from "@emotion/styled";
@@ -33,13 +37,16 @@ const SpinnerBox = styled(Box)`
 
 interface Props {
   xmasState: boolean;
+  postLocal: boolean;
   location?: UserLocation;
   setLocationOffset: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
+
 const Tracker: React.FC<Props> = ({
   location,
   setLocationOffset,
   xmasState,
+  postLocal,
 }) => {
   const [predictedPath, setPredictedPath] = React.useState<number[][]>();
   const [currentLocation, setCurrentLocation] =
@@ -49,37 +56,54 @@ const Tracker: React.FC<Props> = ({
   const [minutePoints, setMinutePoints] =
     React.useState<{ lat: number; lon: number }[]>();
   const [minute, setMinute] = React.useState<LatLngExpression>();
+  const [userLocationIndex, setUserLocationIndex] = React.useState<number>();
+  // const [test, setTest] = React.useState<number[][]>();
 
   React.useEffect(() => {
     const getLocation = (location: UserLocation) => {
       let worldRoute;
+      let predictedMinutes;
       if (location.latitude <= 180) {
         const { localWorld, position } = insertLocalPosition(
           location,
           worldLocations
         );
-        worldRoute = localWorld;
+
         setLocationOffset(localWorld[position].gmtOffset);
-        const predictedMinutes = getMinutePoints(
-          worldRoute[position - 1],
-          worldRoute[position]
-        );
+        worldRoute = localWorld;
+
+        if (worldRoute[position - 1]) {
+          predictedMinutes = getMinutePoints(
+            worldRoute[position - 1],
+            worldRoute[position]
+          );
+        } else {
+          predictedMinutes = getMinutePoints(
+            northPolePrepend[2],
+            worldRoute[position]
+          );
+        }
 
         const predictedLine = predictedMinutes.map((item) => [
           item.lat,
           item.lon,
         ]);
         setPredictedPath(predictedLine);
+        setUserLocationIndex(position);
       } else {
         worldRoute = worldLocations;
       }
-      const currentLocation = getCurrentLocation(worldRoute);
-      setWorldRoute(worldRoute);
+
+      const appendedWorldRoute = [...northPolePrepend, ...worldRoute];
+      const currentLocation = getCurrentLocation(appendedWorldRoute);
+      setWorldRoute(appendedWorldRoute);
+      setCurrentLocation(currentLocation);
+      // setTest(appendedWorldRoute.map((val) => [val.lat, val.lon]));
       if (currentLocation) {
-        if (currentLocation.index < worldRoute.length - 1) {
+        if (currentLocation.index < appendedWorldRoute.length - 1) {
           const points = getMinutePoints(
             currentLocation.location,
-            worldRoute[currentLocation.index + 1]
+            appendedWorldRoute[currentLocation.index + 1]
           );
           const minDate = new Date();
           const minPoint = points[minDate.getUTCMinutes()];
@@ -94,9 +118,7 @@ const Tracker: React.FC<Props> = ({
   React.useEffect(() => {
     const positionUpdate = () => {
       const time = new Date();
-
       const minute = time.getUTCMinutes();
-
       if (minute === 0) {
         if (currentLocation) {
           if (currentLocation.index + 1 < worldRoute.length - 1) {
@@ -109,7 +131,6 @@ const Tracker: React.FC<Props> = ({
         }
       } else {
         if (minutePoints) {
-          console.log(minute, minutePoints[minute]);
           const point = minutePoints[minute];
           setMinute([point.lat, point.lon]);
         }
@@ -129,6 +150,8 @@ const Tracker: React.FC<Props> = ({
         sx={{ height: "60vh", minHeight: "300px", zIndex: 5, mb: 5 }}
       >
         <TrackerTitle
+          postLocal={postLocal}
+          from={userLocationIndex}
           community={
             location && location.latitude <= 180 ? location.city : undefined
           }
@@ -144,13 +167,17 @@ const Tracker: React.FC<Props> = ({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-
           {predictedPath && (
             <Polyline
               pathOptions={lineOptions}
               positions={predictedPath as LatLngExpression[]}
             />
           )}
+          {/* <Polyline
+            pathOptions={lineOptions}
+            positions={test as LatLngExpression[]}
+          /> */}
+
           <Marker position={minute} icon={iconSanta}>
             <Popup>Santa current location!</Popup>
           </Marker>

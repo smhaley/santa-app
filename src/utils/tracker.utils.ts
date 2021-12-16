@@ -71,6 +71,7 @@ export const getMinutePoints = (from: WorldLocation, to: WorldLocation) => {
 export const getCurrentLocation = (
   worldLocations: WorldLocation[]
 ): CurrentLocation | undefined => {
+  console.log("$$", worldLocations);
   let currentLocation: CurrentLocation | undefined = undefined;
   worldLocations.forEach((location, index) => {
     const currentUTC = Math.floor(
@@ -84,6 +85,8 @@ export const getCurrentLocation = (
 
     if (localDay === Christmas.day && localMonth === Christmas.month) {
       if (localHours >= Christmas.timeBegin && localHours < Christmas.timeEnd) {
+        currentLocation = { location, index };
+      } else if (localHours === index) {
         currentLocation = { location, index };
       }
     }

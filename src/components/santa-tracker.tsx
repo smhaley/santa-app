@@ -17,6 +17,7 @@ const SantaTracker = () => {
   const [location, setLocation] = React.useState<UserLocation>();
   const [xmasState, setXmasState] = React.useState(false);
   const [locationOffset, setLocationOffset] = React.useState<number>();
+  const [postLocal, setPostLocal] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -31,12 +32,14 @@ const SantaTracker = () => {
       <CoreContainer show={!loading}>
         <CountDown
           setXmasState={setXmasState}
+          setPostLocal={setPostLocal}
           locationOffset={locationOffset}
           xmasState={xmasState}
         />
         {xmasState && (
           <Tracker
             location={location}
+            postLocal={postLocal}
             xmasState={xmasState}
             setLocationOffset={setLocationOffset}
           />

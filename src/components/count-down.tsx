@@ -99,6 +99,7 @@ const OverTitle = styled.div`
 
 interface CountDownProps {
   setXmasState: React.Dispatch<React.SetStateAction<boolean>>;
+  setPostLocal: React.Dispatch<React.SetStateAction<boolean>>;
   locationOffset?: number;
   xmasState: boolean;
 }
@@ -106,6 +107,7 @@ const CountDown: React.FC<CountDownProps> = ({
   setXmasState,
   locationOffset,
   xmasState,
+  setPostLocal,
 }) => {
   const [currentTime, setCurrentTime] = React.useState<Time>(getTimeDelta(-12));
   const [message, setMessage] = React.useState<string>();
@@ -138,6 +140,7 @@ const CountDown: React.FC<CountDownProps> = ({
 
           if (!isLocalXmas) {
             setMessage(message.post);
+            setPostLocal(true);
             setCurrentTime(timeToXmasEnd);
           } else {
             setMessage(message.current);
@@ -145,6 +148,7 @@ const CountDown: React.FC<CountDownProps> = ({
           }
         } else {
           setMessage(message.post);
+          setPostLocal(true);
           setCurrentTime(timeToXmasEnd);
         }
         setXmasState(true);
@@ -161,7 +165,7 @@ const CountDown: React.FC<CountDownProps> = ({
     }, Timeouts.SECOND);
 
     return () => clearInterval(interval);
-  }, [currentTime, locationOffset, setXmasState, message]);
+  }, [currentTime, locationOffset, setXmasState, message, setPostLocal]);
 
   return (
     <Container
