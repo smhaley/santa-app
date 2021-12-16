@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/santa-app/static/css/main.a92f1cf4.chunk.css",
-    "main.js": "/santa-app/static/js/main.68315a7c.chunk.js",
-    "main.js.map": "/santa-app/static/js/main.68315a7c.chunk.js.map",
+    "main.js": "/santa-app/static/js/main.f9f96e4d.chunk.js",
+    "main.js.map": "/santa-app/static/js/main.f9f96e4d.chunk.js.map",
     "runtime-main.js": "/santa-app/static/js/runtime-main.bbfac2b6.js",
     "runtime-main.js.map": "/santa-app/static/js/runtime-main.bbfac2b6.js.map",
-    "static/js/2.484f3906.chunk.js": "/santa-app/static/js/2.484f3906.chunk.js",
-    "static/js/2.484f3906.chunk.js.map": "/santa-app/static/js/2.484f3906.chunk.js.map",
+    "static/js/2.11b73109.chunk.js": "/santa-app/static/js/2.11b73109.chunk.js",
+    "static/js/2.11b73109.chunk.js.map": "/santa-app/static/js/2.11b73109.chunk.js.map",
     "index.html": "/santa-app/index.html",
     "static/css/main.a92f1cf4.chunk.css.map": "/santa-app/static/css/main.a92f1cf4.chunk.css.map",
-    "static/js/2.484f3906.chunk.js.LICENSE.txt": "/santa-app/static/js/2.484f3906.chunk.js.LICENSE.txt",
+    "static/js/2.11b73109.chunk.js.LICENSE.txt": "/santa-app/static/js/2.11b73109.chunk.js.LICENSE.txt",
     "static/media/dashed-line.730ce7a8.svg": "/santa-app/static/media/dashed-line.730ce7a8.svg",
     "static/media/house.45d04f77.svg": "/santa-app/static/media/house.45d04f77.svg",
     "static/media/landscape.4c040d9c.svg": "/santa-app/static/media/landscape.4c040d9c.svg",
@@ -19,8 +19,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.bbfac2b6.js",
-    "static/js/2.484f3906.chunk.js",
+    "static/js/2.11b73109.chunk.js",
     "static/css/main.a92f1cf4.chunk.css",
-    "static/js/main.68315a7c.chunk.js"
+    "static/js/main.f9f96e4d.chunk.js"
   ]
 }
