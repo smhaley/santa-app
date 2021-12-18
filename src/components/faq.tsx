@@ -17,7 +17,7 @@ const FAQPaper = styled(Paper)`
 
 const FAQ = () => {
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx = {{mb:3}}>
       <FAQPaper sx={{ mt: 2, p: 2 }}>
         <Box>
           <h1>Frequently Asked Questions</h1>
