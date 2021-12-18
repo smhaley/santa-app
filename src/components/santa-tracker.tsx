@@ -6,7 +6,6 @@ import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 
-
 type ContainerProps = {
   show: boolean;
 };
@@ -15,7 +14,7 @@ const CoreContainer = styled.div<ContainerProps>`
 `;
 
 const TrackerContainer = styled.div`
-  padding-bottom: 160px;
+  margin-bottom: 250px;
 `;
 
 const SantaTracker = () => {

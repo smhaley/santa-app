@@ -20,7 +20,6 @@ import {
   getMinutePoints,
   getCurrentLocation,
   CurrentLocation,
-  // isCurrentOffset,
 } from "../utils/tracker.utils";
 import {
   MapContainer,
@@ -59,7 +58,6 @@ const Tracker: React.FC<Props> = ({
     React.useState<{ lat: number; lon: number }[]>();
   const [minute, setMinute] = React.useState<LatLngExpression>();
   const [userLocationIndex, setUserLocationIndex] = React.useState<number>();
-  // const [test, setTest] = React.useState<number[][]>();
 
   React.useEffect(() => {
     const getLocation = (location: UserLocation) => {
@@ -100,7 +98,6 @@ const Tracker: React.FC<Props> = ({
       const currentLocation = getCurrentLocation(appendedWorldRoute);
       setWorldRoute(appendedWorldRoute);
       setCurrentLocation(currentLocation);
-      // setTest(appendedWorldRoute.map((val) => [val.lat, val.lon]));
       if (currentLocation) {
         if (currentLocation.index < appendedWorldRoute.length - 1) {
           const points = getMinutePoints(
@@ -121,16 +118,16 @@ const Tracker: React.FC<Props> = ({
     const positionUpdate = () => {
       const time = new Date();
       const minute = time.getUTCMinutes();
-      // const second = time.getUTCSeconds();
 
-      const location = getCurrentLocation(worldRoute)
-      console.log(location?.index, currentLocation?.index)
-      // console.log(locationIndex, currentLocation)
-      // console.log(currentLocation && worldRoute[locationIndex].name!==currentLocation.location.name);
+      const location = getCurrentLocation(worldRoute);
+      console.log(location?.index, currentLocation?.index);
       if (currentLocation && location) {
         if (location.index !== currentLocation.index) {
-          console.log(time, minute, location, currentLocation)
-          const points = getMinutePoints(location.location, worldRoute[location.index + 1]);
+          console.log(time, minute, location, currentLocation);
+          const points = getMinutePoints(
+            location.location,
+            worldRoute[location.index + 1]
+          );
           setCurrentLocation(location);
           setMinutePoints(points);
           console.log("update", currentLocation);
@@ -140,28 +137,6 @@ const Tracker: React.FC<Props> = ({
             setMinute([point.lat, point.lon]);
           }
         }
-        // }
-        //   if (minute === 0 && second === 0) {
-        //     console.log(minute, second);
-        //     if (currentLocation) {
-        //       if (currentLocation.index + 1 < worldRoute.length - 1) {
-        //         const index = currentLocation.index + 1;
-        //         const location = worldRoute[index];
-        //         const points = getMinutePoints(location, worldRoute[index + 1]);
-        //         console.log("fire update", minute, time.getTime(), {
-        //           location,
-        //           index,
-        //         });
-        //         setCurrentLocation({ location, index });
-
-        //         setMinutePoints(points);
-        //       }
-        //     }
-        //   } else {
-        //     if (minutePoints) {
-        //       const point = minutePoints[minute];
-        //       setMinute([point.lat, point.lon]);
-        //     }
       }
     };
     const interval = setInterval(() => {
@@ -226,7 +201,7 @@ const Tracker: React.FC<Props> = ({
         <CircularProgress color="secondary" />
       </SpinnerBox>
     );
-  } else return <></>;
+  } else return null;
 };
 
 export default Tracker;

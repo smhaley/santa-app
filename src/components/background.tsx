@@ -45,7 +45,7 @@ const TreeContainer1 = styled.div`
 
 const TreeContainer2 = styled.div`
   position: fixed;
-  bottom: 40px;
+  bottom: 20px;
   left: 45%;
   z-index: -2;
   img {
@@ -65,6 +65,9 @@ const TreeContainer2 = styled.div`
   }
   @media screen and (min-width: 540px) {
     left: 55%;
+  }
+  @media screen and (min-height: 575px) {
+    bottom: 40px;
   }
 `;
 

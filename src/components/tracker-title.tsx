@@ -4,6 +4,7 @@ import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { worldLocations } from "../constants/worldLocations";
 import { CurrentLocation } from "../utils/tracker.utils";
+
 const TrackTitleContainer = styled(Paper)`
   width: 100%;
   background-color: ${({ theme }) => theme.palette.primary.main};
@@ -86,7 +87,7 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
         )}
         {currentLocation && (
           <p>
-            At the moment, Santa is is heading toward{" "}
+            At the moment, Santa is heading toward{" "}
             {<b>{currentLocation.location.nextStop}</b>}.
           </p>
         )}

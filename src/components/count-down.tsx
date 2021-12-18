@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { getTimeDelta, isXmas, isTimeNonZero } from "../utils/count-down.utils";
 import { Timeouts } from "../constants/timeouts";
-import { messageText } from "../constants/count-down-messages";
+import { countdownMessages as messageText } from "../content/count-down.content";
 
 export type Time = {
   [key: string]: number;
