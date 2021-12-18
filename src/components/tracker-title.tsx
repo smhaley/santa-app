@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import { worldLocations } from "../constants/worldLocations";
-
+import { CurrentLocation } from "../utils/tracker.utils";
 const TrackTitleContainer = styled(Paper)`
   width: 100%;
   background-color: ${({ theme }) => theme.palette.primary.main};
@@ -24,12 +24,14 @@ interface TrackerTitleProps {
   community?: string;
   from?: number;
   postLocal: boolean;
+  currentLocation?: CurrentLocation;
 }
 
 const TrackerTitle: React.FC<TrackerTitleProps> = ({
   community,
   from,
   postLocal,
+  currentLocation,
 }) => {
   let communityName: string | undefined = undefined;
 
@@ -48,10 +50,12 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
       <>
         <h3>We are Currently Tracking Santa to your Region!</h3>
         {from && (
-          <p>
-            It looks like Santa will be in <b> {fromLocation} </b>
-            before dashing off to your region!
-          </p>
+          <>
+            <p>
+              It looks like Santa will be in <b> {fromLocation} </b>
+              before dashing off to you!
+            </p>
+          </>
         )}
       </>
     );
@@ -79,6 +83,12 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
               Please enjoy the map of Santa's journey around the world!
             </p>
           </>
+        )}
+        {currentLocation && (
+          <p>
+            At the moment, Santa is is heading toward{" "}
+            {<b>{currentLocation.location.nextStop}</b>}.
+          </p>
         )}
       </Box>
     </TrackTitleContainer>

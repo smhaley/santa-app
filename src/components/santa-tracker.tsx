@@ -6,11 +6,16 @@ import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 
+
 type ContainerProps = {
   show: boolean;
 };
 const CoreContainer = styled.div<ContainerProps>`
   visibility: ${(props) => (props.show ? "block" : "hidden")};
+`;
+
+const TrackerContainer = styled.div`
+  padding-bottom: 160px;
 `;
 
 const SantaTracker = () => {
@@ -37,12 +42,14 @@ const SantaTracker = () => {
           xmasState={xmasState}
         />
         {xmasState && (
-          <Tracker
-            location={location}
-            postLocal={postLocal}
-            xmasState={xmasState}
-            setLocationOffset={setLocationOffset}
-          />
+          <TrackerContainer>
+            <Tracker
+              location={location}
+              postLocal={postLocal}
+              xmasState={xmasState}
+              setLocationOffset={setLocationOffset}
+            />
+          </TrackerContainer>
         )}
       </CoreContainer>
 

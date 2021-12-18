@@ -14,11 +14,13 @@ import { UserLocation } from "../types/location.types";
 import Legend from "./legend";
 import TrackerTitle from "./tracker-title";
 import { lineOptions } from "../leaflet/leaflet-path-style";
+import { Timeouts } from "../constants/timeouts";
 import {
   insertLocalPosition,
   getMinutePoints,
   getCurrentLocation,
   CurrentLocation,
+  // isCurrentOffset,
 } from "../utils/tracker.utils";
 import {
   MapContainer,
@@ -119,26 +121,52 @@ const Tracker: React.FC<Props> = ({
     const positionUpdate = () => {
       const time = new Date();
       const minute = time.getUTCMinutes();
-      if (minute === 0) {
-        if (currentLocation) {
-          if (currentLocation.index + 1 < worldRoute.length - 1) {
-            const index = currentLocation.index + 1;
-            const location = worldRoute[index];
-            const points = getMinutePoints(location, worldRoute[index + 1]);
-            setCurrentLocation({ location, index });
-            setMinutePoints(points);
+      // const second = time.getUTCSeconds();
+
+      const location = getCurrentLocation(worldRoute)
+      console.log(location?.index, currentLocation?.index)
+      // console.log(locationIndex, currentLocation)
+      // console.log(currentLocation && worldRoute[locationIndex].name!==currentLocation.location.name);
+      if (currentLocation && location) {
+        if (location.index !== currentLocation.index) {
+          console.log(time, minute, location, currentLocation)
+          const points = getMinutePoints(location.location, worldRoute[location.index + 1]);
+          setCurrentLocation(location);
+          setMinutePoints(points);
+          console.log("update", currentLocation);
+        } else {
+          if (minutePoints) {
+            const point = minutePoints[minute];
+            setMinute([point.lat, point.lon]);
           }
         }
-      } else {
-        if (minutePoints) {
-          const point = minutePoints[minute];
-          setMinute([point.lat, point.lon]);
-        }
+        // }
+        //   if (minute === 0 && second === 0) {
+        //     console.log(minute, second);
+        //     if (currentLocation) {
+        //       if (currentLocation.index + 1 < worldRoute.length - 1) {
+        //         const index = currentLocation.index + 1;
+        //         const location = worldRoute[index];
+        //         const points = getMinutePoints(location, worldRoute[index + 1]);
+        //         console.log("fire update", minute, time.getTime(), {
+        //           location,
+        //           index,
+        //         });
+        //         setCurrentLocation({ location, index });
+
+        //         setMinutePoints(points);
+        //       }
+        //     }
+        //   } else {
+        //     if (minutePoints) {
+        //       const point = minutePoints[minute];
+        //       setMinute([point.lat, point.lon]);
+        //     }
       }
     };
     const interval = setInterval(() => {
       positionUpdate();
-    }, 5000);
+    }, Timeouts.SECOND);
 
     return () => clearInterval(interval);
   }, [minutePoints, currentLocation, worldRoute]);
@@ -150,6 +178,7 @@ const Tracker: React.FC<Props> = ({
         sx={{ height: "60vh", minHeight: "300px", zIndex: 5, mb: 5 }}
       >
         <TrackerTitle
+          currentLocation={currentLocation}
           postLocal={postLocal}
           from={userLocationIndex}
           community={
@@ -173,10 +202,6 @@ const Tracker: React.FC<Props> = ({
               positions={predictedPath as LatLngExpression[]}
             />
           )}
-          {/* <Polyline
-            pathOptions={lineOptions}
-            positions={test as LatLngExpression[]}
-          /> */}
 
           <Marker position={minute} icon={iconSanta}>
             <Popup>Santa current location!</Popup>

@@ -2,8 +2,9 @@ import React from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
-import { getTimeDelta, isXmas } from "../utils/count-down.utils";
+import { getTimeDelta, isXmas, isTimeNonZero } from "../utils/count-down.utils";
 import { Timeouts } from "../constants/timeouts";
+import { messageText } from "../constants/count-down-messages";
 
 export type Time = {
   [key: string]: number;
@@ -114,50 +115,36 @@ const CountDown: React.FC<CountDownProps> = ({
   const [xmasOver, setXmasOver] = React.useState(false);
 
   React.useEffect(() => {
-    const message = {
-      pre: "Santa Leaves the North Pole in:",
-      current: "Time until Christmas Morning!",
-      post: "Time Until Santa Completes World Trip",
-      over: " See You Next Year! 🎄🎅",
-    };
-
     const interval = setInterval(() => {
       const timeToXmas = getTimeDelta(12);
       const timeToXmasEnd = getTimeDelta(-11 - 3);
       const xmasIndicator = isXmas(timeToXmas, timeToXmasEnd);
-      const preXmas =
-        Object.values(timeToXmas).reduce(
-          (accum: number, curr: number) => accum + curr
-        ) > 0;
+      const preXmas = isTimeNonZero(timeToXmas);
 
       if (xmasIndicator) {
         if (locationOffset) {
           const locationTime = getTimeDelta(locationOffset - 8);
-          const isLocalXmas =
-            Object.values(locationTime).reduce(
-              (accum: number, curr: number) => accum + curr
-            ) > 0;
-
+          const isLocalXmas = isTimeNonZero(locationTime);
           if (!isLocalXmas) {
-            setMessage(message.post);
+            setMessage(messageText.post);
             setPostLocal(true);
             setCurrentTime(timeToXmasEnd);
           } else {
-            setMessage(message.current);
+            setMessage(messageText.current);
             setCurrentTime(locationTime);
           }
         } else {
-          setMessage(message.post);
+          setMessage(messageText.post);
           setPostLocal(true);
           setCurrentTime(timeToXmasEnd);
         }
         setXmasState(true);
       } else {
         if (preXmas) {
-          setMessage(message.pre);
+          setMessage(messageText.pre);
           setCurrentTime(timeToXmas);
         } else {
-          setMessage(message.over);
+          setMessage(messageText.over);
           setXmasOver(true);
         }
         setXmasState(false);
@@ -165,7 +152,7 @@ const CountDown: React.FC<CountDownProps> = ({
     }, Timeouts.SECOND);
 
     return () => clearInterval(interval);
-  }, [currentTime, locationOffset, setXmasState, message, setPostLocal]);
+  }, [currentTime, locationOffset, setXmasState, setPostLocal]);
 
   return (
     <Container

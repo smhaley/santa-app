@@ -71,7 +71,6 @@ export const getMinutePoints = (from: WorldLocation, to: WorldLocation) => {
 export const getCurrentLocation = (
   worldLocations: WorldLocation[]
 ): CurrentLocation | undefined => {
-  console.log("$$", worldLocations);
   let currentLocation: CurrentLocation | undefined = undefined;
   worldLocations.forEach((location, index) => {
     const currentUTC = Math.floor(
