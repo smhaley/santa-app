@@ -120,10 +120,17 @@ const Tracker: React.FC<Props> = ({
       const minute = time.getUTCMinutes();
 
       const location = getCurrentLocation(worldRoute);
+      
       console.log(location?.index, currentLocation?.index);
+      console.log(location?.index, worldRoute.length);
+
       if (currentLocation && location) {
-        if (location.index !== currentLocation.index) {
+        if (
+          location.index !== currentLocation.index &&
+          location.index < worldRoute.length
+        ) {
           console.log(time, minute, location, currentLocation);
+
           const points = getMinutePoints(
             location.location,
             worldRoute[location.index + 1]
