@@ -83,7 +83,6 @@ const Tracker: React.FC<Props> = ({
             worldRoute[position]
           );
         }
-
         const predictedLine = predictedMinutes.map((item) => [
           item.lat,
           item.lon,
@@ -118,11 +117,7 @@ const Tracker: React.FC<Props> = ({
     const positionUpdate = () => {
       const time = new Date();
       const minute = time.getUTCMinutes();
-
       const location = getCurrentLocation(worldRoute);
-      
-      console.log(location?.index, currentLocation?.index);
-      console.log(location?.index, worldRoute.length);
 
       if (currentLocation && location) {
         if (
@@ -148,7 +143,7 @@ const Tracker: React.FC<Props> = ({
     };
     const interval = setInterval(() => {
       positionUpdate();
-    }, Timeouts.SECOND);
+    }, Timeouts.HALF);
 
     return () => clearInterval(interval);
   }, [minutePoints, currentLocation, worldRoute]);

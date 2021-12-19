@@ -44,9 +44,10 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
   if (typeof community === "string") {
     communityName = community.length ? community : "Unknown Community Name";
   }
+  console.log('postLocal',postLocal)
 
   let communityMessage: undefined | React.ReactNode;
-  if (communityName || !postLocal) {
+  if (communityName && !postLocal) {
     communityMessage = (
       <>
         <h3>We are Currently Tracking Santa to your Region!</h3>
@@ -60,7 +61,7 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
         )}
       </>
     );
-  } else if (communityName || postLocal) {
+  } else if (communityName && postLocal) {
     communityMessage = (
       <>
         <h3>We hope you had a Merry Christmas Morning!</h3>

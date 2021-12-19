@@ -130,6 +130,7 @@ const CountDown: React.FC<CountDownProps> = ({
             setPostLocal(true);
             setCurrentTime(timeToXmasEnd);
           } else {
+            setPostLocal(false);
             setMessage(messageText.current);
             setCurrentTime(locationTime);
           }
