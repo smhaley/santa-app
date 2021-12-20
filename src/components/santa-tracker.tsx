@@ -34,6 +34,7 @@ const SantaTracker = () => {
   return (
     <>
       <CoreContainer show={!loading}>
+        <div style ={{color:'white'}}>{JSON.stringify(location)}</div>
         <CountDown
           setXmasState={setXmasState}
           setPostLocal={setPostLocal}
