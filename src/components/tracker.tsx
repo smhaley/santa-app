@@ -158,9 +158,7 @@ const Tracker: React.FC<Props> = ({
           currentLocation={currentLocation}
           postLocal={postLocal}
           from={userLocationIndex}
-          community={
-            location && location.latitude <= 180 ? location.city : undefined
-          }
+          community={(location && location.latitude <= 180) || false}
         />
 
         <MapContainer

@@ -26,15 +26,18 @@ const SantaTracker = () => {
 
   React.useEffect(() => {
     getLocation(setLocation);
-    const loader = setTimeout(() => {
-      setLoading(false);
-    }, 2500);
-    return () => clearTimeout(loader);
   }, []);
+
+  React.useEffect(() => {
+    const loader = setTimeout(() => {
+      location && setLoading(false);
+    }, 1500);
+    return () => clearTimeout(loader);
+  }, [location]);
   return (
     <>
       <CoreContainer show={!loading}>
-        <div style ={{color:'white'}}>{JSON.stringify(location)}</div>
+        <div style={{ color: "white" }}>{JSON.stringify(location)}</div>
         <CountDown
           setXmasState={setXmasState}
           setPostLocal={setPostLocal}

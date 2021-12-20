@@ -22,7 +22,7 @@ const TrackTitleContainer = styled(Paper)`
 `;
 
 interface TrackerTitleProps {
-  community?: string;
+  community?: boolean;
   from?: number;
   postLocal: boolean;
   currentLocation?: CurrentLocation;
@@ -41,13 +41,11 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
       ? worldLocations[from - 1].name
       : "The North Pole";
 
-  if (typeof community === "string") {
-    communityName = community.length ? community : "Unknown Community Name";
-  }
-  console.log('postLocal',postLocal)
+
+console.log('community',community, community && !postLocal)
 
   let communityMessage: undefined | React.ReactNode;
-  if (communityName && !postLocal) {
+  if (community && !postLocal) {
     communityMessage = (
       <>
         <h3>We are Currently Tracking Santa to your Region!</h3>
@@ -61,7 +59,7 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
         )}
       </>
     );
-  } else if (communityName && postLocal) {
+  } else if (community && postLocal) {
     communityMessage = (
       <>
         <h3>We hope you had a Merry Christmas Morning!</h3>
@@ -73,11 +71,11 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
   return (
     <TrackTitleContainer>
       <Box sx={{ m: 2, p: 1 }}>
-        {communityName ? (
+        {community ? (
           <> {communityMessage}</>
         ) : (
           <>
-            <h2>Currently we are unable to find your location.</h2>
+            <h3>Currently we are unable to find your location.</h3>
             <p>
               We will be unable to predict Santa's final path to your location,
               but he will be sure not to miss the stop!
