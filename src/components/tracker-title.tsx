@@ -43,7 +43,7 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
   if (community && !postLocal) {
     communityMessage = (
       <>
-        <h3>We are Currently Tracking Santa to your Region!</h3>
+        <h3>We are Currently Tracking Santa to your Community!</h3>
         {from && (
           <>
             <p>
@@ -72,7 +72,7 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
           <>
             <h3>Currently we are unable to find your location.</h3>
             <p>
-              We will be unable to predict Santa's final path to your location,
+              We will be unable to predict Santa's final path to your community,
               but he will be sure not to miss the stop!
               <br />
               Please enjoy the map of Santa's journey around the world!

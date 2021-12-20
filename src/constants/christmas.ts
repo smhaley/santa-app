@@ -1,5 +1,5 @@
 export enum Christmas {
-  day = 20,
+  day = 21,
   month = 11,
   timeBegin = 3,
   timeEnd = 4,

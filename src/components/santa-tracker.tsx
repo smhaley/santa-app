@@ -1,10 +1,11 @@
 import React from "react";
 import Tracker from "./tracker";
 import CountDown from "./count-down";
-import { getLocation } from "../utils/app.utils";
+import { getClientLocation } from "../utils/app.utils";
 import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
+import {Timeouts} from '../constants/timeouts'
 
 type ContainerProps = {
   show: boolean;
@@ -25,13 +26,13 @@ const SantaTracker = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    getLocation(setLocation);
+    getClientLocation(setLocation);
   }, []);
 
   React.useEffect(() => {
     const loader = setTimeout(() => {
       location && setLoading(false);
-    }, 1500);
+    }, Timeouts.POST_LOCATION);
     return () => clearTimeout(loader);
   }, [location]);
   return (
