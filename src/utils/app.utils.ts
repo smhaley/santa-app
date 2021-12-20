@@ -33,17 +33,17 @@ export const getClientLocation = async (setLocation: SetLocation) => {
   }
 };
 
+export const userLocationCall = async (setLocation: SetLocation) => {
+  const res = await fetch("https://geolocation-db.com/json/");
+  if (!res.ok) throw new Error("bad resp");
+  const location: UserLocation = await res.json();
+  setLocation(location);
+};
+
 export const getLocation = async (setLocation: SetLocation) => {
   try {
     getClientLocation(setLocation);
   } catch {
-    const res = await fetch("https://geolocation-db.com/json/");
-    if (!res.ok) throw new Error("bad resp");
-    const location: UserLocation = await res.json();
-    // console.log(location)
-    // const test = {...nullLocation, longitude: 139, latitude: 50}
-    // setLocation(test)
-    setLocation(location);
-
+    setLocation(nullLocation);
   }
 };

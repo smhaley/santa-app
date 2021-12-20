@@ -34,15 +34,10 @@ const TrackerTitle: React.FC<TrackerTitleProps> = ({
   postLocal,
   currentLocation,
 }) => {
-  let communityName: string | undefined = undefined;
-
   const fromLocation =
     from && worldLocations[from - 1]
       ? worldLocations[from - 1].name
       : "The North Pole";
-
-
-console.log('community',community, community && !postLocal)
 
   let communityMessage: undefined | React.ReactNode;
   if (community && !postLocal) {
