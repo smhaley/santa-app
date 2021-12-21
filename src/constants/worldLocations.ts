@@ -68,7 +68,7 @@ export const worldLocations: WorldLocation[] = [
     lat: 19.6101,
     lon: 57.08072,
     gmtOffset: 4,
-    nextStop: "Russia",
+    nextStop: "Moscow, Russia",
   },
   {
     name: "Russia",

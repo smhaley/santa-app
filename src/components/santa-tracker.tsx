@@ -1,21 +1,38 @@
 import React from "react";
 import Tracker from "./tracker";
 import CountDown from "./count-down";
-import { getClientLocation } from "../utils/app.utils";
+import { getClientLocation, nullLocation } from "../utils/app.utils";
 import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
-import {Timeouts} from '../constants/timeouts'
+import { Timeouts } from "../constants/timeouts";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 type ContainerProps = {
   show: boolean;
+};
+
+type CountDownContainerProps = {
+  dim: boolean;
 };
 const CoreContainer = styled.div<ContainerProps>`
   visibility: ${(props) => (props.show ? "block" : "hidden")};
 `;
 
+const CountDownContainer = styled.div<CountDownContainerProps>`
+  opacity: ${(props) => (props.dim ? 0.4 : "hidden")};
+`;
+
 const TrackerContainer = styled.div`
   margin-bottom: 250px;
+`;
+
+const SpinnerBox = styled(Box)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
 `;
 
 const SantaTracker = () => {
@@ -24,36 +41,58 @@ const SantaTracker = () => {
   const [locationOffset, setLocationOffset] = React.useState<number>();
   const [postLocal, setPostLocal] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(true);
+  const [locationUpdate, setLocationUpdate] = React.useState(false);
 
   React.useEffect(() => {
     getClientLocation(setLocation);
+    setLocation(nullLocation);
+    const loader = setTimeout(() => {
+      setLoading(false);
+    }, Timeouts.SECOND);
+    return () => clearTimeout(loader);
   }, []);
 
-  React.useEffect(() => {
-    const loader = setTimeout(() => {
-      location && setLoading(false);
-    }, Timeouts.POST_LOCATION);
-    return () => clearTimeout(loader);
+  React.useLayoutEffect(() => {
+    if (location && location.latitude <= 180) {
+      setLocationUpdate(true);
+      const loader = setTimeout(() => {
+        setLocationUpdate(false);
+      }, Timeouts.POST_LOCATION);
+      return () => clearTimeout(loader);
+    }
   }, [location]);
+
+  let tracker: React.ReactNode;
+
+  if (locationUpdate) {
+    tracker = (
+      <SpinnerBox>
+        <CircularProgress color="secondary" />
+      </SpinnerBox>
+    );
+  } else {
+    tracker = (
+      <Tracker
+        location={location}
+        postLocal={postLocal}
+        xmasState={xmasState}
+        setLocationOffset={setLocationOffset}
+      />
+    );
+  }
+
   return (
     <>
       <CoreContainer show={!loading}>
-        <CountDown
-          setXmasState={setXmasState}
-          setPostLocal={setPostLocal}
-          locationOffset={locationOffset}
-          xmasState={xmasState}
-        />
-        {xmasState && (
-          <TrackerContainer>
-            <Tracker
-              location={location}
-              postLocal={postLocal}
-              xmasState={xmasState}
-              setLocationOffset={setLocationOffset}
-            />
-          </TrackerContainer>
-        )}
+        <CountDownContainer dim={locationUpdate}>
+          <CountDown
+            setXmasState={setXmasState}
+            setPostLocal={setPostLocal}
+            locationOffset={locationOffset}
+            xmasState={xmasState}
+          />
+        </CountDownContainer>
+        {xmasState && <TrackerContainer>{tracker}</TrackerContainer>}
       </CoreContainer>
 
       {loading && <Loader />}
