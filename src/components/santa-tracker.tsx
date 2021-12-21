@@ -6,8 +6,6 @@ import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 import { Timeouts } from "../constants/timeouts";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 
 type ContainerProps = {
   show: boolean;
@@ -26,13 +24,6 @@ const CountDownContainer = styled.div<CountDownContainerProps>`
 
 const TrackerContainer = styled.div`
   margin-bottom: 250px;
-`;
-
-const SpinnerBox = styled(Box)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 8rem;
 `;
 
 const SantaTracker = () => {
@@ -65,11 +56,7 @@ const SantaTracker = () => {
   let tracker: React.ReactNode;
 
   if (locationUpdate) {
-    tracker = (
-      <SpinnerBox>
-        <CircularProgress color="secondary" />
-      </SpinnerBox>
-    );
+    tracker = <Loader />;
   } else {
     tracker = (
       <Tracker
