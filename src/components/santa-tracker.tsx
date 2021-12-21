@@ -44,10 +44,10 @@ const SantaTracker = () => {
   const [locationUpdate, setLocationUpdate] = React.useState(false);
 
   React.useEffect(() => {
-    getClientLocation(setLocation);
     setLocation(nullLocation);
     const loader = setTimeout(() => {
       setLoading(false);
+      getClientLocation(setLocation);
     }, Timeouts.SECOND);
     return () => clearTimeout(loader);
   }, []);
