@@ -16,20 +16,13 @@ export const nullLocation: UserLocation = {
 
 export const getClientLocation = async (setLocation: SetLocation) => {
   if ("geolocation" in navigator) {
-    return navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          ...nullLocation,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      },
-      () => {
-        setLocation(nullLocation);
-      }
-    );
-  } else {
-    setLocation(nullLocation);
+    return navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({
+        ...nullLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
   }
 };
 
