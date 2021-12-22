@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/santa-app/static/css/main.a92f1cf4.chunk.css",
-    "main.js": "/santa-app/static/js/main.d020c30d.chunk.js",
-    "main.js.map": "/santa-app/static/js/main.d020c30d.chunk.js.map",
+    "main.js": "/santa-app/static/js/main.acd828e8.chunk.js",
+    "main.js.map": "/santa-app/static/js/main.acd828e8.chunk.js.map",
     "runtime-main.js": "/santa-app/static/js/runtime-main.bbfac2b6.js",
     "runtime-main.js.map": "/santa-app/static/js/runtime-main.bbfac2b6.js.map",
     "static/js/2.eca629aa.chunk.js": "/santa-app/static/js/2.eca629aa.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.bbfac2b6.js",
     "static/js/2.eca629aa.chunk.js",
     "static/css/main.a92f1cf4.chunk.css",
-    "static/js/main.d020c30d.chunk.js"
+    "static/js/main.acd828e8.chunk.js"
   ]
 }
