@@ -16,32 +16,27 @@ export const nullLocation: UserLocation = {
 
 export const getClientLocation = async (setLocation: SetLocation) => {
   if ("geolocation" in navigator) {
-    return navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          ...nullLocation,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      },
-      () => {
-        setLocation(nullLocation);
-      }
-    );
-  } else {
-    setLocation(nullLocation);
+    return navigator.geolocation.getCurrentPosition((position) => {
+      setLocation({
+        ...nullLocation,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
   }
+};
+
+export const userLocationCall = async (setLocation: SetLocation) => {
+  const res = await fetch("https://geolocation-db.com/json/");
+  if (!res.ok) throw new Error("bad resp");
+  const location: UserLocation = await res.json();
+  setLocation(location);
 };
 
 export const getLocation = async (setLocation: SetLocation) => {
   try {
-    const res = await fetch("https://geolocation-db.com/json/");
-    if (!res.ok) throw new Error("bad resp");
-    const location: UserLocation = await res.json();
-    // const test = {...nullLocation, longitude: 130, latitude: 0}
-    // setLocation(test)
-    setLocation(location);
-  } catch {
     getClientLocation(setLocation);
+  } catch {
+    setLocation(nullLocation);
   }
 };

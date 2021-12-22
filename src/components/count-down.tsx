@@ -2,9 +2,9 @@ import React from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
-import { getTimeDelta, isXmas } from "../utils/count-down.utils";
-import { timeouts } from "../constants/timeouts";
-
+import { getTimeDelta, isXmas, isTimeNonZero } from "../utils/count-down.utils";
+import { Timeouts } from "../constants/timeouts";
+import { countdownMessages as messageText } from "../content/count-down.content";
 
 export type Time = {
   [key: string]: number;
@@ -51,7 +51,7 @@ const CounterLi = styled.li<CountdownProps>`
   }
   ${(props) =>
     !props.xmas &&
-  `
+    `
       @media screen and (min-width: 470px) {
         font-size: 1.25em;
         span {
@@ -72,7 +72,7 @@ const Title = styled.div<CountdownProps>`
   text-transform: uppercase;
   h1 {
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 600;
   }
   @media screen and (min-width: 360px) {
     font-size: 1.2em;
@@ -87,7 +87,7 @@ const Title = styled.div<CountdownProps>`
   }
   @media screen and (min-width: 560px) {
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.65rem;
     }
   }
 `;
@@ -100,6 +100,7 @@ const OverTitle = styled.div`
 
 interface CountDownProps {
   setXmasState: React.Dispatch<React.SetStateAction<boolean>>;
+  setPostLocal: React.Dispatch<React.SetStateAction<boolean>>;
   locationOffset?: number;
   xmasState: boolean;
 }
@@ -107,69 +108,58 @@ const CountDown: React.FC<CountDownProps> = ({
   setXmasState,
   locationOffset,
   xmasState,
+  setPostLocal,
 }) => {
   const [currentTime, setCurrentTime] = React.useState<Time>(getTimeDelta(-12));
   const [message, setMessage] = React.useState<string>();
   const [xmasOver, setXmasOver] = React.useState(false);
 
   React.useEffect(() => {
-    const message = {
-      pre: "Santa Leaves the North Pole in:",
-      current: "Time until Christmas Morning!",
-      post: "Time Until Santa Completes World Trip",
-      over: " See You Next Year! 🎄🎅",
-    };
-
     const interval = setInterval(() => {
       const timeToXmas = getTimeDelta(12);
       const timeToXmasEnd = getTimeDelta(-11 - 3);
       const xmasIndicator = isXmas(timeToXmas, timeToXmasEnd);
-
-      const preXmas =
-        Object.values(timeToXmas).reduce(
-          (accum: number, curr: number) => accum + curr
-        ) > 0;
+      const preXmas = isTimeNonZero(timeToXmas);
 
       if (xmasIndicator) {
         if (locationOffset) {
           const locationTime = getTimeDelta(locationOffset - 8);
-          const isLocalXmas =
-            Object.values(locationTime).reduce(
-              (accum: number, curr: number) => accum + curr
-            ) > 0;
-
+          const isLocalXmas = isTimeNonZero(locationTime);
           if (!isLocalXmas) {
-            setMessage(message.post);
+            setMessage(messageText.post);
+            setPostLocal(true);
             setCurrentTime(timeToXmasEnd);
           } else {
-            setMessage(message.current);
+            setPostLocal(false);
+            setMessage(messageText.current);
             setCurrentTime(locationTime);
           }
         } else {
-          setMessage(message.post);
+          setMessage(messageText.post);
+          setPostLocal(true);
           setCurrentTime(timeToXmasEnd);
         }
         setXmasState(true);
       } else {
         if (preXmas) {
-          setMessage(message.pre);
+          setMessage(messageText.pre);
           setCurrentTime(timeToXmas);
         } else {
-          setMessage(message.over);
+          setMessage(messageText.over);
           setXmasOver(true);
         }
         setXmasState(false);
       }
-    }, timeouts.MINUTE);
+    }, Timeouts.SECOND);
 
     return () => clearInterval(interval);
-  }, [currentTime, locationOffset, setXmasState]);
+  }, [currentTime, locationOffset, setXmasState, setPostLocal]);
 
   return (
     <Container
       maxWidth="md"
       sx={{
-        marginTop: xmasState ? "20px" : "70px",
+        mt: xmasState ? 2 : 20,
         display: message !== undefined ? "block" : "none",
       }}
     >

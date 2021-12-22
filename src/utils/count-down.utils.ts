@@ -9,26 +9,26 @@ type TimeObject = {
   seconds: number;
 };
 
+const second = 1000;
+const minute = second * 60;
+const hour = minute * 60;
+const day = hour * 24;
+
 export const isXmas = (timeToXmas: Time, timeToXmasEnd: Time) => {
   const initXmas =
     Object.values(timeToXmas).reduce(
       (accum: number, curr: number) => accum + curr
-    ) <= 0;
+    ) === 0;
 
   const xmasEnd =
     Object.values(timeToXmasEnd).reduce(
       (accum: number, curr: number) => accum + curr
-    ) >= 0;
+    ) > 0;
 
   return initXmas && xmasEnd;
 };
 
 export const getTimeDelta = (offset: number): Time => {
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
   const dateline = Math.floor(Date.now() / 1000 + offset * 3600);
   const firstXmas = new Date(dateline * 1000);
   const currentYear = firstXmas.getUTCFullYear();
@@ -51,3 +51,9 @@ export const getTimeDelta = (offset: number): Time => {
 
   return timeObj;
 };
+
+export const isTimeNonZero = (locationTime: Time) =>
+  Object.values(locationTime).reduce(
+    (accum: number, curr: number) => accum + curr
+  ) > 0;
+

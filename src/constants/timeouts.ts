@@ -1,3 +1,8 @@
-export const timeouts = {
-    MINUTE: 1000
+export enum Timeouts {
+  MINUTE = 10000,
+  HALF = 5000,
+  SECOND = 1000,
+  POST_LOCATION = 2500,
+  FALLBACK_LOAD = 8000,
+  APP_MOUNT = 1500,
 }
