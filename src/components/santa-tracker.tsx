@@ -5,7 +5,7 @@ import { getClientLocation, nullLocation } from "../utils/app.utils";
 import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
-// import { Timeouts } from "../constants/timeouts";
+import { Timeouts } from "../constants/timeouts";
 
 type ContainerProps = {
   show: boolean;
@@ -39,7 +39,7 @@ const SantaTracker = () => {
     getClientLocation(setLocation);
     const loader = setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, Timeouts.SECOND);
     return () => clearTimeout(loader);
   }, []);
 
@@ -48,7 +48,7 @@ const SantaTracker = () => {
       setLocationUpdate(true);
       const loader = setTimeout(() => {
         setLocationUpdate(false);
-      }, 2000);
+      }, Timeouts.POST_LOCATION);
       return () => clearTimeout(loader);
     }
   }, [location]);
