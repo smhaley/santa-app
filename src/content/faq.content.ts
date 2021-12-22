@@ -9,7 +9,7 @@ export const faqContent = [
   },
   {
     q: "How does this use my location?",
-    a: `The tracker uses your location to update the map to show how Santa will travel over your location! If you're not interested with sharing you location, that is absolutely okay! The next two questions are related to your location and how we predict Santa's path.`,
+    a: `The Santa Tracker uses your location to update the map to show how Santa will travel directly to your location! If you're not interested with sharing you location, that is absolutely okay! The next two questions are related to your location and how we predict Santa's path.`,
   },
   {
     q: "What is the dashed line?",

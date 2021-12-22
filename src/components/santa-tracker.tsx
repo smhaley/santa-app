@@ -6,6 +6,7 @@ import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 import { Timeouts } from "../constants/timeouts";
+import { isXmasHelper } from "../utils/count-down.utils";
 
 type ContainerProps = {
   show: boolean;
@@ -36,12 +37,17 @@ const SantaTracker = () => {
 
   React.useEffect(() => {
     setLocation(nullLocation);
-    getClientLocation(setLocation);
     const loader = setTimeout(() => {
       setLoading(false);
-    }, Timeouts.SECOND);
+    }, 1500);
     return () => clearTimeout(loader);
   }, []);
+
+  React.useLayoutEffect(() => {
+    if (xmasState && location && location.latitude > 180) {
+      getClientLocation(setLocation);
+    }
+  }, [xmasState, location]);
 
   React.useLayoutEffect(() => {
     if (location && location.latitude <= 180) {
