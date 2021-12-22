@@ -1,7 +1,7 @@
 {
   "name": "santa-app",
   "homepage": "http://smhaley.github.io/santa-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/core": "^11.0.0",
