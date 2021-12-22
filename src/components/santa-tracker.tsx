@@ -5,7 +5,7 @@ import { getClientLocation, nullLocation } from "../utils/app.utils";
 import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
-import { Timeouts } from "../constants/timeouts";
+// import { Timeouts } from "../constants/timeouts";
 
 type ContainerProps = {
   show: boolean;
