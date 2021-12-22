@@ -44,6 +44,7 @@ const SantaTracker = () => {
 
   React.useLayoutEffect(() => {
     if (xmasState && location && location.latitude > 180) {
+      console.log('fire')
       getClientLocation(setLocation);
     }
   }, [xmasState, location]);
