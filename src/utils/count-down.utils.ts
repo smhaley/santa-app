@@ -57,8 +57,3 @@ export const isTimeNonZero = (locationTime: Time) =>
     (accum: number, curr: number) => accum + curr
   ) > 0;
 
-export const isXmasHelper = () => {
-  const timeToXmas = getTimeDelta(12);
-  const timeToXmasEnd = getTimeDelta(-11 - 3);
-  return isXmas(timeToXmas, timeToXmasEnd);
-};

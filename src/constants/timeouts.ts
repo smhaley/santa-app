@@ -4,4 +4,5 @@ export enum Timeouts {
   SECOND = 1000,
   POST_LOCATION = 2500,
   FALLBACK_LOAD = 8000,
+  APP_MOUNT = 1500,
 }

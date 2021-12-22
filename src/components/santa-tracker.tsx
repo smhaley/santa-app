@@ -6,7 +6,6 @@ import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 import { Timeouts } from "../constants/timeouts";
-import { isXmasHelper } from "../utils/count-down.utils";
 
 type ContainerProps = {
   show: boolean;
@@ -39,7 +38,7 @@ const SantaTracker = () => {
     setLocation(nullLocation);
     const loader = setTimeout(() => {
       setLoading(false);
-    }, 1500);
+    }, Timeouts.APP_MOUNT);
     return () => clearTimeout(loader);
   }, []);
 
