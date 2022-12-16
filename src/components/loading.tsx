@@ -5,8 +5,8 @@ import { ReactComponent as Santa } from "../assets/santa.svg";
 
 const fade = keyframes`
   50% { opacity: 1; }
-  from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
+  from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 `;
 
 const LoaderContainer = styled.div`

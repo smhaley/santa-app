@@ -60,7 +60,12 @@ const Navigation: React.FC<NavigationProps> = ({ setLocation }) => {
 
   const handleCloseNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     const { value } = event.currentTarget.dataset;
-    value && setLocation(value);
+    if (value) {
+      const tabKey = pages.findIndex((pageObj) => pageObj.key === value);
+      setCurrentNav(tabKey);
+
+      setLocation(value);
+    }
     setAnchorElNav(null);
   };
 
