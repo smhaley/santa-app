@@ -7,16 +7,9 @@ import Loader from "./loading";
 import styled from "@emotion/styled";
 import { Timeouts } from "../constants/timeouts";
 
-type ContainerProps = {
-  show: boolean;
-};
-
 type CountDownContainerProps = {
   dim: boolean;
 };
-const CoreContainer = styled.div<ContainerProps>`
-  visibility: ${(props) => (props.show ? "block" : "hidden")};
-`;
 
 const CountDownContainer = styled.div<CountDownContainerProps>`
   opacity: ${(props) => (props.dim ? 0.4 : "hidden")};
@@ -27,20 +20,13 @@ const TrackerContainer = styled.div`
 `;
 
 const SantaTracker = () => {
-  const [location, setLocation] = React.useState<UserLocation>();
+  const [location, setLocation] = React.useState<UserLocation | undefined>(
+    nullLocation
+  );
   const [xmasState, setXmasState] = React.useState(false);
   const [locationOffset, setLocationOffset] = React.useState<number>();
   const [postLocal, setPostLocal] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState(true);
   const [locationUpdate, setLocationUpdate] = React.useState(false);
-
-  React.useEffect(() => {
-    setLocation(nullLocation);
-    const loader = setTimeout(() => {
-      setLoading(false);
-    }, Timeouts.APP_MOUNT);
-    return () => clearTimeout(loader);
-  }, []);
 
   React.useLayoutEffect(() => {
     if (xmasState && location && location.latitude > 180) {
@@ -75,19 +61,15 @@ const SantaTracker = () => {
 
   return (
     <>
-      <CoreContainer show={!loading}>
-        <CountDownContainer dim={locationUpdate}>
-          <CountDown
-            setXmasState={setXmasState}
-            setPostLocal={setPostLocal}
-            locationOffset={locationOffset}
-            xmasState={xmasState}
-          />
-        </CountDownContainer>
-        {xmasState && <TrackerContainer>{tracker}</TrackerContainer>}
-      </CoreContainer>
-
-      {loading && <Loader />}
+      <CountDownContainer dim={locationUpdate}>
+        <CountDown
+          setXmasState={setXmasState}
+          setPostLocal={setPostLocal}
+          locationOffset={locationOffset}
+          xmasState={xmasState}
+        />
+      </CountDownContainer>
+      {xmasState && <TrackerContainer>{tracker}</TrackerContainer>}
     </>
   );
 };

@@ -156,7 +156,6 @@ const TreeContainer3 = styled.div`
 const Background = () => {
   return (
     <>
-      <Snowfall style={{ zIndex: -1 }} />
       <TreeContainer1>
         <div className="shadow" />
         <img src={tree} alt="tree1" />

@@ -176,7 +176,7 @@ const Tracker: React.FC<Props> = ({
           )}
 
           <Marker position={minute} icon={iconSanta}>
-            <Popup>Santa current location!</Popup>
+            <Popup>Santa's current location!</Popup>
           </Marker>
           {location && (
             <>
