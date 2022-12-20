@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import Loader from "./components/loading";
 import { Timeouts } from "./constants/timeouts";
 import Snowfall from "react-snowfall";
+import { isApplicationXmasState } from "./utils/count-down.utils";
 
 const DisplayContainer = styled.div<{ show: boolean }>`
   display: ${(props) => (props.show ? "block" : "none")};
@@ -22,9 +23,11 @@ const App = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    const isXmas = isApplicationXmasState();
+    const timeout = isXmas ? Timeouts.APP_MOUNT_XMAS : Timeouts.APP_MOUNT;
     const loader = setTimeout(() => {
       setLoading(false);
-    }, Timeouts.APP_MOUNT);
+    }, timeout);
     return () => clearTimeout(loader);
   }, []);
 

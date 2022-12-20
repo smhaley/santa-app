@@ -1,5 +1,4 @@
 import React from "react";
-import Snowfall from "react-snowfall";
 import { ReactComponent as Landscape } from "../assets/landscape.svg";
 import sleigh from "../assets/sleigh.png";
 import tree from "../assets/tree.png";
