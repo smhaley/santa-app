@@ -1,5 +1,4 @@
 import React from "react";
-import Snowfall from "react-snowfall";
 import { ReactComponent as Landscape } from "../assets/landscape.svg";
 import sleigh from "../assets/sleigh.png";
 import tree from "../assets/tree.png";
@@ -156,7 +155,6 @@ const TreeContainer3 = styled.div`
 const Background = () => {
   return (
     <>
-      <Snowfall style={{ zIndex: -1 }} />
       <TreeContainer1>
         <div className="shadow" />
         <img src={tree} alt="tree1" />

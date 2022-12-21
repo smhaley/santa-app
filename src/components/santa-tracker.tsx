@@ -1,22 +1,19 @@
 import React from "react";
 import Tracker from "./tracker";
 import CountDown from "./count-down";
-import { getClientLocation, nullLocation } from "../utils/app.utils";
+import {
+  getClientLocation,
+  nullLocation,
+  getLocationFromStorage,
+} from "../utils/app.utils";
 import { UserLocation } from "../types/location.types";
 import Loader from "./loading";
 import styled from "@emotion/styled";
 import { Timeouts } from "../constants/timeouts";
 
-type ContainerProps = {
-  show: boolean;
-};
-
 type CountDownContainerProps = {
   dim: boolean;
 };
-const CoreContainer = styled.div<ContainerProps>`
-  visibility: ${(props) => (props.show ? "block" : "hidden")};
-`;
 
 const CountDownContainer = styled.div<CountDownContainerProps>`
   opacity: ${(props) => (props.dim ? 0.4 : "hidden")};
@@ -27,36 +24,35 @@ const TrackerContainer = styled.div`
 `;
 
 const SantaTracker = () => {
-  const [location, setLocation] = React.useState<UserLocation>();
+  const [location, setLocation] = React.useState<UserLocation | undefined>();
   const [xmasState, setXmasState] = React.useState(false);
   const [locationOffset, setLocationOffset] = React.useState<number>();
   const [postLocal, setPostLocal] = React.useState<boolean>(false);
-  const [loading, setLoading] = React.useState(true);
   const [locationUpdate, setLocationUpdate] = React.useState(false);
 
   React.useEffect(() => {
-    setLocation(nullLocation);
-    const loader = setTimeout(() => {
-      setLoading(false);
-    }, Timeouts.APP_MOUNT);
-    return () => clearTimeout(loader);
+    const existingLocation = getLocationFromStorage();
+    if (existingLocation) {
+      setLocation(existingLocation);
+    } else {
+      setLocation(nullLocation);
+    }
   }, []);
 
   React.useLayoutEffect(() => {
     if (xmasState && location && location.latitude > 180) {
-      getClientLocation(setLocation);
+      getClientLocation(setLocation, setLocationUpdate);
     }
   }, [xmasState, location]);
 
   React.useLayoutEffect(() => {
-    if (location && location.latitude <= 180) {
-      setLocationUpdate(true);
+    if (location && location.latitude <= 180 && locationUpdate) {
       const loader = setTimeout(() => {
         setLocationUpdate(false);
       }, Timeouts.POST_LOCATION);
       return () => clearTimeout(loader);
     }
-  }, [location]);
+  }, [location, locationUpdate]);
 
   let tracker: React.ReactNode;
 
@@ -75,19 +71,15 @@ const SantaTracker = () => {
 
   return (
     <>
-      <CoreContainer show={!loading}>
-        <CountDownContainer dim={locationUpdate}>
-          <CountDown
-            setXmasState={setXmasState}
-            setPostLocal={setPostLocal}
-            locationOffset={locationOffset}
-            xmasState={xmasState}
-          />
-        </CountDownContainer>
-        {xmasState && <TrackerContainer>{tracker}</TrackerContainer>}
-      </CoreContainer>
-
-      {loading && <Loader />}
+      <CountDownContainer dim={locationUpdate}>
+        <CountDown
+          setXmasState={setXmasState}
+          setPostLocal={setPostLocal}
+          locationOffset={locationOffset}
+          xmasState={xmasState}
+        />
+      </CountDownContainer>
+      {xmasState && <TrackerContainer>{tracker}</TrackerContainer>}
     </>
   );
 };

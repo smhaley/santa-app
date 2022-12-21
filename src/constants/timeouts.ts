@@ -5,4 +5,5 @@ export enum Timeouts {
   POST_LOCATION = 2500,
   FALLBACK_LOAD = 8000,
   APP_MOUNT = 1500,
+  APP_MOUNT_XMAS = 2500,
 }
